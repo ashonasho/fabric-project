@@ -31,11 +31,15 @@ canvas.on('mouse:move', (event) => {
 
 // mouse:down
 canvas.on("mouse:down", (event) => {
-    mousePressed = true;
+    mousePressed = true
+    canvas.setCursor('crosshair')
+    canvas.renderAll()
 })
 
 // mouse:up
 canvas.on("mouse:up", (event) => {
-    mousePressed = false;
+    mousePressed = false
+    canvas.setCursor('default')
+    canvas.renderAll()
 })
 
