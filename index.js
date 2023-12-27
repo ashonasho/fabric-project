@@ -14,12 +14,25 @@ const setBackground = (url, canvas) => {
 
 }
 
-const togglePan= () => {
-    if(currentMode === modes.pan) {
-        currentMode = ""
-    } else {
-        currentMode = modes.pan
+const toggleMode= (mode) => {
+
+    if(mode === modes.pan) {
+        if(currentMode === modes.pan) {
+            currentMode = ""
+        } else {
+            currentMode = modes.pan
+        }
+    } else if (mode === modes.drawing) {
+        if(currentMode === modes.drawing) {
+            currentMode = ""
+            canvas.isDrawingMode = false
+            canvas.renderAll()
+
+        } else {
+            currentMode = modes.drawing
+        }    
     }
+    console.log(mode)
 
 }
 
@@ -33,7 +46,10 @@ const setPanEvents = (canvas) => {
             const mEvent = event.e;
             const delta = new fabric.Point(mEvent.movementX,mEvent.movementY)
             canvas.relativePan(delta)
-        } 
+        } else if (mousePressed && currentMode === modes.drawing) {
+            canvas.isDrawingMode = true
+            canvas.renderAll()
+        }   
     }) 
 
     // mouse:down
