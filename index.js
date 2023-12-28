@@ -21,15 +21,23 @@ const toggleMode= (mode) => {
             currentMode = ""
         } else {
             currentMode = modes.pan
+            canvas.isDrawingMode = false
+            canvas.renderAll()
         }
     } else if (mode === modes.drawing) {
         if(currentMode === modes.drawing) {
             currentMode = ""
-            canvas.isDrawingMode = false
+            canvas.isDrawingMode = true
             canvas.renderAll()
 
         } else {
+            canvas.freeDrawingBrush = new fabric.CircleBrush(canvas)
+            canvas.freeDrawingBrush.color = "red"
+            canvas.freeDrawingBrush.width = "15"
+            
             currentMode = modes.drawing
+            canvas.isDrawingMode = true
+            canvas.renderAll()
         }    
     }
     console.log(mode)
@@ -46,9 +54,7 @@ const setPanEvents = (canvas) => {
             const mEvent = event.e;
             const delta = new fabric.Point(mEvent.movementX,mEvent.movementY)
             canvas.relativePan(delta)
-        } else if (mousePressed && currentMode === modes.drawing) {
-            canvas.isDrawingMode = true
-            canvas.renderAll()
+       
         }   
     }) 
 
