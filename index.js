@@ -30,11 +30,7 @@ const toggleMode= (mode) => {
             canvas.isDrawingMode = true
             canvas.renderAll()
 
-        } else {
-            canvas.freeDrawingBrush = new fabric.SprayBrush(canvas)
-            canvas.freeDrawingBrush.color = color
-            canvas.freeDrawingBrush.width = 15
-            
+        } else { 
             currentMode = modes.drawing
             canvas.isDrawingMode = true
             canvas.renderAll()
@@ -80,7 +76,7 @@ const setPanEvents = (canvas) => {
 
 const canvas = initCanvas("canvas");
 let mousePressed = true;
-
+let color ="1000000"
 let currentMode;
 
 const modes = {
