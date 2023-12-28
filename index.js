@@ -31,8 +31,8 @@ const toggleMode= (mode) => {
             canvas.renderAll()
 
         } else {
-            canvas.freeDrawingBrush = new fabric.CircleBrush(canvas)
-            canvas.freeDrawingBrush.color = "red"
+            canvas.freeDrawingBrush = new fabric.SprayBrush(canvas)
+            canvas.freeDrawingBrush.color = color
             canvas.freeDrawingBrush.width = 15
             
             currentMode = modes.drawing
