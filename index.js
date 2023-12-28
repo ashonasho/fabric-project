@@ -32,6 +32,8 @@ const toggleMode= (mode) => {
 
         } else { 
             currentMode = modes.drawing
+            canvas.freeDrawingBrush.color =
+            color
             canvas.isDrawingMode = true
             canvas.renderAll()
         }    
@@ -74,6 +76,28 @@ const setPanEvents = (canvas) => {
 
 }
 
+const setColorListener = () => {
+    const picker = document.getElementById
+    ("colorPicker")
+    picker.addEventListener("change", (event)=> {
+    console.log(event.target.value)
+    color = event.target.value
+    canvas.freeDrawingBrush.color = color
+    canvas.renderAll()
+
+    })
+
+}
+
+const clearCanvas = (canvas) => {
+    canvas.getObjects().forEach((o) => {
+       if(o !== canvas.backgroundImage) {
+        canvas.remove(o)
+       }  
+    })
+
+}
+
 const canvas = initCanvas("canvas");
 let mousePressed = true;
 let color ="1000000"
@@ -87,3 +111,5 @@ const modes = {
 setBackground('https://i.pinimg.com/564x/aa/85/fe/aa85fedb590860fdeff1731fbb52ddb0.jpg', canvas);
 
 setPanEvents(canvas)
+
+setColorListener()
