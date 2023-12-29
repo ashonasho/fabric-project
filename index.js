@@ -98,6 +98,31 @@ const clearCanvas = (canvas) => {
 
 }
 
+const createRect = (canvas) => {
+    console.log("rect")
+    const canvCenter = canvas.getCenter()
+    const rect = new fabric.Rect({
+        width: 100,
+        height:100,
+        fill: "pink",
+        left: canvCenter.left,
+        top: canvCenter.top,
+        originX: "center",
+        originY: "center"
+    })
+    canvas.add(rect)
+    canvas.renderAll()
+}
+
+const createCirc = (canvas) => {
+    console.log("circ")
+    const canvCenter =canvas.getCenter()
+    const circle = new fabric.Circle({
+        
+    })
+
+}
+
 const canvas = initCanvas("canvas");
 let mousePressed = true;
 let color ="1000000"

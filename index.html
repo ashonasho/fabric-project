@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <Link rel ="stylesheet" href="index.css">
 </head>
 <body>
     
@@ -12,6 +13,15 @@
     <input id="colorPicker" value="#000000" data-jscolor="">
     <button onclick="clearCanvas(canvas)">Clear</button>
     <canvas id="canvas"></canvas>
+
+    <div id="objectButtonsWrapper">
+        <p id="objectButtons">Objects</p>
+        <div id="objectTitle">
+            <button onclick="createRect(canvas)">Rect</button>
+            <button onclick="createCirc(canvas)">Circ</button>
+        </div>
+        
+    </div>
  
     
  <script src="lib/jscolor.js"></script>   
