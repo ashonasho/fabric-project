@@ -106,13 +106,16 @@ const createRect = (canvas) => {
         height:100,
         fill: "pink",
         left: canvCenter.left,
-        top: canvCenter.top,
+        top: -50,
         originX: "center",
         originY: "center",
         cornerColor: "white"
     })
     canvas.add(rect)
-    canvas.renderAll()
+    canvas.renderAll();
+    rect.animate("top", canvCenter.top,{
+        onChange:canvas.renderAll.bind(canvas)
+    });
 }
 
 const createCirc = (canvas) => {
@@ -125,7 +128,10 @@ const createCirc = (canvas) => {
         top: canvCenter.top,
         originX: "center",
         originY: "center",
-        cornerColor: "white"
+        cornerColor: "white",
+        
+        
+
         
 
         
