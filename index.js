@@ -1,4 +1,5 @@
 
+
 const initCanvas = (id) => {
     return new fabric.Canvas(id, {
         width: 500, 
@@ -118,16 +119,12 @@ const createRect = (canvas) => {
         onChange:canvas.renderAll.bind(canvas)
     });
     rect.on("selected", () => {
-       rect.fill = "white" 
+       rect.set("fill", "white") 
        canvas.renderAll()
-       console.log("selected")
-
     })
     rect.on("deselected", () => {
-        rect.fill = "pink"
+        rect.set("fill","green")
         canvas.renderAll()
-        console.log("deselected")
-
     })
 
 }
@@ -143,7 +140,8 @@ const createCirc = (canvas) => {
         top: - 50,
         originX: "center",
         originY: "center",
-        cornerColor: "white", 
+        cornerColor: "white",
+        objectCaching: false
     })
     canvas.add(circle)
     canvas.renderAll()
@@ -156,12 +154,38 @@ const createCirc = (canvas) => {
                 duration: 2500
             })
         }
-});
+    });
+    circle.on("selected", () => {
+        circle.set("fill", "white")
+        canvas.requestRenderAll()
+     })
+    circle.on("deselected", () => {
+         circle.set("fill", "orange")
+         canvas.requestRenderAll()
+     })
+}
+
+const groupObjects = (canvas, group, shouldGroup) => {
+    if(shouldGroup){
+        const objects = canvas.getObjects()
+        group.val = new fabric.Group(objects, {cornerColor: "white"})
+        clearCanvas(canvas)
+        canvas.add(group.val)
+        canvas.requestRenderAll()
+    } else {
+        const oldGroup = group.val.getObjects()
+        canvas.remove(group.val)
+        canvas.add(...oldGroup)
+        group.val = null
+        canvas.requestRenderAll()
+    }
 }
 
 const canvas = initCanvas("canvas");
 let mousePressed = true;
 let color ="1000000"
+let group = {};
+
 let currentMode;
 
 const modes = {
