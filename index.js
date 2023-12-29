@@ -108,7 +108,8 @@ const createRect = (canvas) => {
         left: canvCenter.left,
         top: canvCenter.top,
         originX: "center",
-        originY: "center"
+        originY: "center",
+        cornerColor: "white"
     })
     canvas.add(rect)
     canvas.renderAll()
@@ -118,8 +119,19 @@ const createCirc = (canvas) => {
     console.log("circ")
     const canvCenter =canvas.getCenter()
     const circle = new fabric.Circle({
+        radius: 50,
+        fill: "orange",
+        left: canvCenter.left,
+        top: canvCenter.top,
+        originX: "center",
+        originY: "center",
+        cornerColor: "white"
+        
+
         
     })
+    canvas.add(circle)
+    canvas.renderAll()
 
 }
 
