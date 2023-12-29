@@ -109,36 +109,54 @@ const createRect = (canvas) => {
         top: -50,
         originX: "center",
         originY: "center",
-        cornerColor: "white"
+        cornerColor: "white",
+        objectCaching: false
     })
     canvas.add(rect)
     canvas.renderAll();
     rect.animate("top", canvCenter.top,{
         onChange:canvas.renderAll.bind(canvas)
     });
+    rect.on("selected", () => {
+       rect.fill = "white" 
+       canvas.renderAll()
+       console.log("selected")
+
+    })
+    rect.on("deselected", () => {
+        rect.fill = "pink"
+        canvas.renderAll()
+        console.log("deselected")
+
+    })
+
 }
+
 
 const createCirc = (canvas) => {
     console.log("circ")
-    const canvCenter =canvas.getCenter()
+    const canvCenter = canvas.getCenter()
     const circle = new fabric.Circle({
         radius: 50,
         fill: "orange",
         left: canvCenter.left,
-        top: canvCenter.top,
+        top: - 50,
         originX: "center",
         originY: "center",
-        cornerColor: "white",
-        
-        
-
-        
-
-        
+        cornerColor: "white", 
     })
     canvas.add(circle)
     canvas.renderAll()
-
+     circle.animate("top", canvas.height - 50, {
+        onChange:canvas.renderAll.bind(canvas),
+        onComplete: () => {
+            circle.animate("top", canvCenter.top - 50, {
+                onChange:canvas.renderAll.bind(canvas),
+                easing: fabric.util.ease.easeOutBounce,
+                duration: 2500
+            })
+        }
+});
 }
 
 const canvas = initCanvas("canvas");
