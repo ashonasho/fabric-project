@@ -1,5 +1,6 @@
 
 
+
 const initCanvas = (id) => {
     return new fabric.Canvas(id, {
         width: 500, 
@@ -40,6 +41,7 @@ const toggleMode= (mode) => {
         }    
     }
     console.log(mode)
+ 
 
 }
 
@@ -87,17 +89,47 @@ const setColorListener = () => {
     canvas.renderAll()
 
     })
+   
 
 }
 
+
+
+const saveCurrentState = () => {
+    currentStateIndex++;
+    savedStates = savedStates.slice(0, currentStateIndex);
+    savedStates.push(JSON.stringify(canvas.toJSON()));
+}
+
+
+
+// Modify existing functions to save state
 const clearCanvas = (canvas) => {
+    saveCurrentState();
     canvas.getObjects().forEach((o) => {
-       if(o !== canvas.backgroundImage) {
-        canvas.remove(o)
-       }  
-    })
-
+        if (o !== canvas.backgroundImage) {
+            canvas.remove(o);
+        }
+    });
 }
+const restoreCanvas = () => {
+    if (currentStateIndex <= 0) {
+        console.log("No more states to restore.");
+        return;
+    }
+
+    // currentStateIndex--;
+    canvas.loadFromJSON(savedStates[currentStateIndex], () => {
+        canvas.renderAll();
+        console.log("Canvas restored to a previous state.");
+    });
+}
+
+// Add this in the functions where you modify the canvas, like createRect, createCirc, etc.
+
+
+// On load, save the initial state
+
 
 const createRect = (canvas) => {
     console.log("rect")
@@ -126,6 +158,7 @@ const createRect = (canvas) => {
         rect.set("fill","green")
         canvas.renderAll()
     })
+    
 
 }
 
@@ -163,6 +196,7 @@ const createCirc = (canvas) => {
          circle.set("fill", "orange")
          canvas.requestRenderAll()
      })
+     
 }
 
 const groupObjects = (canvas, group, shouldGroup) => {
@@ -173,6 +207,7 @@ const groupObjects = (canvas, group, shouldGroup) => {
         canvas.add(group.val)
         canvas.requestRenderAll()
     } else {
+        group.val.destroy()
         const oldGroup = group.val.getObjects()
         canvas.remove(group.val)
         canvas.add(...oldGroup)
@@ -181,11 +216,19 @@ const groupObjects = (canvas, group, shouldGroup) => {
     }
 }
 
+const imgAdded = (e) => {
+    console.log(e)
+    const inputElem = document.getElementById("myImg")
+    const file = inputElem.files[0];
+    reader.readAsDataURL(file)
+}
+
 const canvas = initCanvas("canvas");
 let mousePressed = true;
 let color ="1000000"
 let group = {};
-
+let savedStates = [];
+let currentStateIndex = -1;
 let currentMode;
 
 const modes = {
@@ -193,8 +236,27 @@ const modes = {
 }
 
 
+
 setBackground('https://i.pinimg.com/564x/aa/85/fe/aa85fedb590860fdeff1731fbb52ddb0.jpg', canvas);
+
 
 setPanEvents(canvas)
 
+
+
 setColorListener()
+window.onload = () => {
+    saveCurrentState();
+};
+
+const reader = new FileReader()
+
+const inputFile = document.getElementById("myImg")
+inputFile.addEventListener("change", imgAdded)
+
+reader.addEventListener("load", () => {
+    fabric.Image.fromURL(reader.result, img => {
+        canvas.add(img)
+        canvas.requestRenderAll()
+    })
+})

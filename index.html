@@ -12,6 +12,9 @@
     <button onclick="toggleMode(modes.drawing)">Toggle Drawing</button>
     <input id="colorPicker" value="#000000" data-jscolor="">
     <button onclick="clearCanvas(canvas)">Clear</button>
+    <button onclick="restoreCanvas()">Restore</button>
+
+    
     <canvas id="canvas"></canvas>
 
     <div id="objectButtonsWrapper">
@@ -23,10 +26,15 @@
         </div>
         <button onclick="groupObjects(canvas, group, true)">Group</button>
         <button onclick="groupObjects(canvas, group, false)">Ungroup</button>
+       
+    </div>
+    <div id="objectButtonsWrapper">
+        <p class="buttonsTitle">Image</p>
+        <input id="myImg" type="file" accept="image/*">
     </div>
  
     
- <script src="lib/jscolor.js"></script>   
+<script src="lib/jscolor.js"></script>   
 <script src="lib/fabric.min.js"></script>
 <script src="index.js"></script>
 </body>
